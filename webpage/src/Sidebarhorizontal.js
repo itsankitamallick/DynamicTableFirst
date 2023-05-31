@@ -16,9 +16,13 @@ function Sidebar() {
       {showTable && (
         <div className="content-section">
           <Table />
+          
         </div>
+       
       )}
+      
     </div>
+    
   );
 }
 
