@@ -31,6 +31,16 @@ const Table = () => {
     setTableData(updatedData);
   };
 
+  const handleDeleteSelectedCells = () => {
+    const updatedData = tableData.map((row, rowIndex) =>
+      row.map((cell, colIndex) =>
+        isSelectedCell(rowIndex, colIndex) ? '' : cell
+      )
+    );
+    setTableData(updatedData);
+    setSelectedCells([]);
+  };
+
   const handleCellMouseDown = (rowIndex, colIndex) => {
     setIsMouseDown(true);
     startCellRef.current = { rowIndex, colIndex };
@@ -56,28 +66,16 @@ const Table = () => {
       // You need at least two cells selected for merging
       return;
     }
-  
+
     const minX = Math.min(...selectedCells.map((cell) => cell.rowIndex));
     const maxX = Math.max(...selectedCells.map((cell) => cell.rowIndex));
     const minY = Math.min(...selectedCells.map((cell) => cell.colIndex));
     const maxY = Math.max(...selectedCells.map((cell) => cell.colIndex));
-  
+
     const mergedValue = tableData[minX][minY];
     const mergedRowSpan = maxX - minX + 1;
     const mergedColSpan = maxY - minY + 1;
-  
-    const updatedData = tableData.map((row, rowIndex) => {
-      if (rowIndex >= minX && rowIndex <= maxX) {
-        return row.map((cell, colIndex) => {
-          if (colIndex >= minY && colIndex <= maxY) {
-            return colIndex === minY && rowIndex === minX ? mergedValue : '';
-          }
-          return cell;
-        });
-      }
-      return row;
-    });
-  
+
     const mergedCell = {
       rowIndex: minX,
       colIndex: minY,
@@ -85,18 +83,29 @@ const Table = () => {
       colSpan: mergedColSpan,
       value: mergedValue,
     };
-  
+
+    const updatedData = tableData.map((row, rowIndex) => {
+      if (rowIndex >= minX && rowIndex <= maxX) {
+        return row.map((cell, colIndex) => {
+          if (colIndex >= minY && colIndex <= maxY) {
+            return colIndex === minY && rowIndex === minX ? mergedValue : null;
+          }
+          return cell;
+        });
+      }
+      return row;
+    });
+
     const mergedCells = [
       mergedCell,
       ...selectedCells.filter(
-        (cell) =>
-          cell.rowIndex !== minX || cell.colIndex !== minY
+        (cell) => cell.rowIndex !== minX || cell.colIndex !== minY
       ),
     ];
-  
+
     // Update the `tableData` state
     setTableData(updatedData);
-  
+
     // Set the `selectedCells` state to the merged cells
     setSelectedCells(mergedCells);
   };
@@ -130,7 +139,7 @@ const Table = () => {
         >
           <input
             type="text"
-            value={cellData}
+            value={cellData || ''}
             onChange={(event) => handleCellChange(rowIndex, colIndex, event)}
           />
         </td>
@@ -170,6 +179,11 @@ const Table = () => {
       <button className="add-row-button" onClick={handleAddRow}>
         +
       </button>
+     
+        <button className="delete-cell-button" onClick={handleDeleteSelectedCells}>
+          Delete
+        </button>
+     
       <button className="merge-cell-button" onClick={handleMergeCells}>
         Merge
       </button>
