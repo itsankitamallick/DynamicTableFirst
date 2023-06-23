@@ -6,8 +6,9 @@
   height: 100vh;
   margin-right: 20px;
   align-content: center;
-}
 
+  
+}
 
 .row-button-container {
   margin-bottom: 20px;
@@ -38,6 +39,9 @@
   border: 2px solid black;
   padding: 8px;
   align-items: center;
+  position: relative;
+  
+ 
 }
 
 .thread-table input {
@@ -50,6 +54,30 @@
 .mergecell{
   margin-top: 20px;
 
+}
+.resize-handle-column {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  bottom: 0;
+  width: 10px;
+  cursor: col-resize;
+  
+}
+
+.resize-handle-row {
+  position: relative;
+  height: 10px;
+  cursor: row-resize;
+  
+}
+
+.resize-handle-column:hover {
+  cursor: col-resize;
+}
+
+.resize-handle-row:hover {
+  cursor: row-resize;
 }
 
 

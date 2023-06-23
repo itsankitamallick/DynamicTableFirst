@@ -1,0 +1,49 @@
+.table-container {
+    position: relative;
+    margin: 20px;
+  }
+  
+  .resize-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .resize-table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .cell-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .resize-handle-column,
+  .resize-handle-row {
+    position: absolute;
+    background-color: #f0f0f0;
+    cursor: col-resize;
+    width: 6px;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+  
+  .resize-handle-row {
+    width: 100%;
+    height: 6px;
+    cursor: row-resize;
+    left: 0;
+    right: 0;
+  }
+  
+  .resize-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    cursor: col-resize;
+  }
+  
